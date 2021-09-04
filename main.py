@@ -23,9 +23,9 @@ LOG_HOST = ""
 LOG_PORT = 9000
 
 # Banner displayed when connecting to the honeypot
-BANNER = readOptions.getOptions("options_honeypot", "banner")
+BANNER = "Ubuntu 18.04 LTS\nlogin: "
 # Socket timeout in seconds
-TIMEOUT = 3
+TIMEOUT = 10
 
 
 # TODO: Rename s
@@ -36,19 +36,19 @@ def main():
     # Waiting for connection
     s.listen(5)
     while True:
-        clientsocket, clientaddress = s.accept() # FIX: Doesn't get past this line
+        clientsocket, clientaddress = s.accept()
         s.settimeout(TIMEOUT)
         logger.info(f"{clientsocket} has connected at {clientaddress}")
         print(f"Honeypot has connection from {clientaddress}")
         try:
             clientsocket.send(bytes(BANNER, "utf-8"))
             msg = s.recv(1024)
-        except socket.error:
-            logger.critical(f"Error: {str(socket.error)}")
+        except socket.error as e:
+            logger.critical(f"Error: {str(e)}")
         else:
             logger.critical(f"Data: {msg}")
-        finally:
-            s.close()
+        # finally:
+        #     s.close()
 
 
 
