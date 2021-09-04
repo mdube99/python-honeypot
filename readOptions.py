@@ -1,7 +1,5 @@
 from configparser import ConfigParser
 
-# TODO: rename option
-
 def getOptions(category, option):
     options = ConfigParser()
     options.read('options.ini')
