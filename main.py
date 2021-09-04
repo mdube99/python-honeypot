@@ -34,8 +34,9 @@ def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((LOCAL_HOST, LOCAL_PORT))
     # Waiting for connection
-    s.listen(5)
+    s.listen(100)
     while True:
+        print("Honeypot is waiting connections...")
         clientsocket, clientaddress = s.accept()
         s.settimeout(TIMEOUT)
         logger.info(f"{clientsocket} has connected at {clientaddress}")
@@ -47,8 +48,8 @@ def main():
             logger.critical(f"Error: {str(e)}")
         else:
             logger.critical(f"Data: {msg}")
-        # finally:
-        #     s.close()
+        finally:
+            s.close()
 
 
 
